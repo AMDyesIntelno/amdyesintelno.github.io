@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"railgun.icu","root":"/","images":"/images","scheme":"Muse","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="兜兜转转,最后还是回到了双系统… 大一上:分别使用了Ubuntu18.04LTS和Deepin15,体验相当不爽 大一下&amp;大二上:使用WSL2+HyperV,体验良好,但是仍然有不少小bug 现在:Manjaro-Kde+Windows双系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="环境构建">
+<meta property="og:url" content="https://railgun.icu/2021/01/21/hello-world/index.html">
+<meta property="og:site_name" content="Misaka&#39;s Blog">
+<meta property="og:description" content="兜兜转转,最后还是回到了双系统… 大一上:分别使用了Ubuntu18.04LTS和Deepin15,体验相当不爽 大一下&amp;大二上:使用WSL2+HyperV,体验良好,但是仍然有不少小bug 现在:Manjaro-Kde+Windows双系统">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.misaka.gq/_posts/%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/clion_wsl.png">
+<meta property="og:image" content="https://img.misaka.gq/_posts/%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/enable_hyperv.png">
+<meta property="og:image" content="https://img.misaka.gq/_posts/%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/hyperv.png">
+<meta property="og:image" content="https://img.misaka.gq/_posts/%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/manjaro.png">
+<meta property="article:published_time" content="2021-01-21T03:15:32.000Z">
+<meta property="article:modified_time" content="2021-07-18T03:36:01.052Z">
+<meta property="article:author" content="Misaka">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.misaka.gq/_posts/%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/clion_wsl.png">
+
+
+<link rel="canonical" href="https://railgun.icu/2021/01/21/hello-world/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://railgun.icu/2021/01/21/hello-world/","path":"2021/01/21/hello-world/","title":"环境构建"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>环境构建 | Misaka's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Misaka's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-笔记"><a href="https://notes.railgun.icu/" rel="noopener" target="_blank"><i class="fa fa-book fa-fw"></i>笔记</a></li>
+        <li class="menu-item menu-item-安全"><a href="https://github.com/AMDyesIntelno/huaQ" rel="noopener" target="_blank"><i class="fas fa-shield-alt fa-fw"></i>安全</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#WSL2%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">WSL2使用记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#WSL%E4%B8%8EWSL2"><span class="nav-number">1.1.</span> <span class="nav-text">WSL与WSL2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E7%94%A8WSL2"><span class="nav-number">1.2.</span> <span class="nav-text">启用WSL2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8WSL2%E4%B8%8A%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.3.</span> <span class="nav-text">在WSL2上安装系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Terminal%E7%BE%8E%E5%8C%96-%E5%8F%AF%E9%80%89"><span class="nav-number">1.4.</span> <span class="nav-text">Terminal美化(可选)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E6%8D%A2%E6%BA%90"><span class="nav-number">1.5.</span> <span class="nav-text">Linux换源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86-clash"><span class="nav-number">1.6.</span> <span class="nav-text">配置系统代理(clash)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ZSH-amp-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="nav-number">1.7.</span> <span class="nav-text">ZSH&amp;开发环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9Bbug"><span class="nav-number">1.8.</span> <span class="nav-text">一些bug</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HyperV%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">HyperV使用记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.1.</span> <span class="nav-text">使用原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEHyper-V"><span class="nav-number">2.2.</span> <span class="nav-text">配置Hyper-V</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hyper-V%E4%BD%BF%E7%94%A8%E6%84%9F%E5%8F%97"><span class="nav-number">2.2.1.</span> <span class="nav-text">Hyper-V使用感受</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E7%94%A8Hyper-V"><span class="nav-number">2.2.2.</span> <span class="nav-text">启用Hyper-V</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">2.2.3.</span> <span class="nav-text">Ubuntu虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">2.2.4.</span> <span class="nav-text">Windows虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.5.</span> <span class="nav-text">Ubuntu配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.6.</span> <span class="nav-text">Windows配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Manjaro%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95"><span class="nav-number">3.</span> <span class="nav-text">Manjaro使用记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">3.1.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">常用软件</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Misaka</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yoursite.com/" title="http:&#x2F;&#x2F;yoursite.com&#x2F;" rel="noopener" target="_blank">asdf</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yoursite.com/" title="http:&#x2F;&#x2F;yoursite.com&#x2F;" rel="noopener" target="_blank">qwer</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/AMDyesIntelno" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://railgun.icu/2021/01/21/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Misaka">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Misaka's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          环境构建
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-01-21 11:15:32" itemprop="dateCreated datePublished" datetime="2021-01-21T11:15:32+08:00">2021-01-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-07-18 11:36:01" itemprop="dateModified" datetime="2021-07-18T11:36:01+08:00">2021-07-18</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <blockquote>
+<p>兜兜转转,最后还是回到了双系统…</p>
+<p>大一上:分别使用了Ubuntu18.04LTS和Deepin15,体验相当不爽</p>
+<p>大一下&amp;大二上:使用WSL2+HyperV,体验良好,但是仍然有不少小bug</p>
+<p>现在:Manjaro-Kde+Windows双系统</p>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="WSL2使用记录"><a href="#WSL2使用记录" class="headerlink" title="WSL2使用记录"></a>WSL2使用记录</h1><h2 id="WSL与WSL2"><a href="#WSL与WSL2" class="headerlink" title="WSL与WSL2"></a>WSL与WSL2</h2><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/wsl/compare-versions">WSL简介</a></p>
+<p>WSL2相比WSL最大的优势在于速度的提高和一个完整的Linux内核</p>
+<p>但是启用了WSL2后(使用了类似于Hyper-V的技术),VMware正式版将无法使用(测试版可以调用Hyper-V,类似于虚拟机套娃,但性能就emmm)</p>
+<p>而WSL可以与VMware共存,这是两者的差别,也是WSL的优势</p>
+<p>同时WSL2的网络部分与WSL不同,在一些设置上需要特别注意</p>
+<h2 id="启用WSL2"><a href="#启用WSL2" class="headerlink" title="启用WSL2"></a>启用WSL2</h2><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/wsl/install-win10">在 Windows 10 上安装适用于 Linux 的 Windows 子系统 (WSL)</a></p>
+<p>以管理员身份运行powershell,启用WSL</p>
+<p><code>dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart</code></p>
+<p>同样以管理员身份运行powershell,将WSL升级到WSL2</p>
+<p><code>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart</code></p>
+<p>然后重启电脑</p>
+<p>重启完成后,下载WSL2的Linux内核更新包并安装更新</p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/wsl/wsl2-kernel">更新 WSL 2 Linux 内核</a></p>
+<p>至此,WSL2已经启用</p>
+<ul>
+<li>WSL的常用操作</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">关闭所有wsl发行版</span><br><span class="line">wsl --shutdown</span><br><span class="line">关闭某个wsl发行版</span><br><span class="line">wsl -t &lt;DistroName&gt;</span><br><span class="line">注销(即卸载)某个发行版</span><br><span class="line">wsl --unregister &lt;DistroName&gt;</span><br><span class="line">设置默认wsl版本</span><br><span class="line">wsl --set-default-version &lt;版本 1或者2&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="在WSL2上安装系统"><a href="#在WSL2上安装系统" class="headerlink" title="在WSL2上安装系统"></a>在WSL2上安装系统</h2><p>首先,前往Windows store下载Windows terminal</p>
+<p><a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab">购买 Windows Terminal - Microsoft Store zh-CN</a></p>
+<p>打开Windows terminal,在里面输入<code>wsl --set-default-version 2</code>,将WSL2设置为默认发行版</p>
+<ol>
+<li>通过Windows store下载Debian10(默认安装在系统盘)</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/p/debian/9msvkqc78pk6?activetab=pivot:overviewtab">购买 Debian - Microsoft Store zh-CN</a></p>
+<p>下载完成,点击启动后,等待一到两分钟来完成初始化,然后输入用户名和密码</p>
+<p>进入到Debian后,可以关闭启动产生的命令行窗口,使用Windows terminal,输入<code>wsl</code>即可进入Debian</p>
+<ol start="2">
+<li>通过微软官方下载,可安装在其他位置</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://aka.ms/wsl-debian-gnulinux">Debian10</a></p>
+<p>将下载得到的文件的后缀修改为<code>.zip</code>,解压到安装位置,双击exe文件即可运行安装程序</p>
+<p>等待一到两分钟来完成初始化,然后输入用户名和密码</p>
+<p>进入到Debian后,可以关闭启动产生的命令行窗口,使用Windows terminal,输入<code>wsl</code>即可进入Debian</p>
+<h2 id="Terminal美化-可选"><a href="#Terminal美化-可选" class="headerlink" title="Terminal美化(可选)"></a>Terminal美化(可选)</h2><p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/tonsky/FiraCode/master/distr/ttf/FiraCode-Retina.ttf">Fira Code Retina 字体下载链接</a></p>
+<p><a target="_blank" rel="noopener" href="https://aka.ms/terminal-color-schemes">Windows Terminal Color Schemes</a></p>
+<p>这是我的配置文件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This file was initially generated by Windows Terminal 1.4.3243.0</span></span><br><span class="line"><span class="comment">// It should still be usable in newer versions, but newer versions might have additional</span></span><br><span class="line"><span class="comment">// settings, help text, or changes that you will not see unless you clear this file</span></span><br><span class="line"><span class="comment">// and let us generate a new one for you.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// To view the default settings, hold &quot;alt&quot; while clicking on the &quot;Settings&quot; button.</span></span><br><span class="line"><span class="comment">// For documentation on these settings, see: https://aka.ms/terminal-documentation</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;$schema&quot;</span>: <span class="string">&quot;https://aka.ms/terminal-profiles-schema&quot;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="attr">&quot;defaultProfile&quot;</span>: <span class="string">&quot;&#123;61c54bbd-c2c6-5271-96e7-009a87ff44bf&#125;&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;alwaysShowTabs&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;initialCols&quot;</span>: <span class="number">90</span>,</span><br><span class="line">    <span class="attr">&quot;initialRows&quot;</span>: <span class="number">30</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// You can add more global application settings here.</span></span><br><span class="line">    <span class="comment">// To learn more about global settings, visit https://aka.ms/terminal-global-settings</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// If enabled, selections are automatically copied to your clipboard.</span></span><br><span class="line">    <span class="attr">&quot;copyOnSelect&quot;</span>: <span class="literal">false</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If enabled, formatted data is also copied to your clipboard</span></span><br><span class="line">    <span class="attr">&quot;copyFormatting&quot;</span>: <span class="literal">false</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// A profile specifies a command to execute paired with information about how it should look and feel.</span></span><br><span class="line">    <span class="comment">// Each one of them will appear in the &#x27;New Tab&#x27; dropdown,</span></span><br><span class="line">    <span class="comment">//   and can be invoked from the commandline with `wt.exe -p xxx`</span></span><br><span class="line">    <span class="comment">// To learn more about profiles, visit https://aka.ms/terminal-profile-settings</span></span><br><span class="line">    <span class="attr">&quot;profiles&quot;</span>:</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">&quot;defaults&quot;</span>:</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;useAcrylic&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="attr">&quot;acrylicOpacity&quot;</span>: <span class="number">0.5</span>,</span><br><span class="line">            <span class="attr">&quot;fontFace&quot;</span>: <span class="string">&quot;Fira Code Retina&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;fontSize&quot;</span>: <span class="number">14</span>,</span><br><span class="line">            <span class="attr">&quot;cursorColor&quot;</span>: <span class="string">&quot;#FFFFFF&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;list&quot;</span>:</span><br><span class="line">        [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// Make changes here to the powershell.exe profile.</span></span><br><span class="line">                <span class="attr">&quot;guid&quot;</span>: <span class="string">&quot;&#123;61c54bbd-c2c6-5271-96e7-009a87ff44bf&#125;&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Windows PowerShell&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;commandline&quot;</span>: <span class="string">&quot;powershell.exe&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;hidden&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="attr">&quot;colorScheme&quot;</span>: <span class="string">&quot;One Half Dark&quot;</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// Make changes here to the cmd.exe profile.</span></span><br><span class="line">                <span class="attr">&quot;guid&quot;</span>: <span class="string">&quot;&#123;0caa0dad-35be-5f56-a8ff-afceeeaa6101&#125;&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Command Prompt&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;commandline&quot;</span>: <span class="string">&quot;cmd.exe&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;hidden&quot;</span>: <span class="literal">true</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">&quot;guid&quot;</span>: <span class="string">&quot;&#123;b453ae62-4e3d-5e58-b989-0a998ec441b8&#125;&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;hidden&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">                <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Azure Cloud Shell&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;source&quot;</span>: <span class="string">&quot;Windows.Terminal.Azure&quot;</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">&quot;guid&quot;</span>: <span class="string">&quot;&#123;58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530&#125;&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;hidden&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Debian&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;source&quot;</span>: <span class="string">&quot;Windows.Terminal.Wsl&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;colorScheme&quot;</span>: <span class="string">&quot;One Half Dark&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add custom color schemes to this array.</span></span><br><span class="line">    <span class="comment">// To learn more about color schemes, visit https://aka.ms/terminal-color-schemes</span></span><br><span class="line">    <span class="attr">&quot;schemes&quot;</span>: [],</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add custom actions and keybindings to this array.</span></span><br><span class="line">    <span class="comment">// To unbind a key combination from your defaults.json, set the command to &quot;unbound&quot;.</span></span><br><span class="line">    <span class="comment">// To learn more about actions and keybindings, visit https://aka.ms/terminal-keybindings</span></span><br><span class="line">    <span class="attr">&quot;actions&quot;</span>:</span><br><span class="line">    [</span><br><span class="line">        <span class="comment">// Copy and paste are bound to Ctrl+Shift+C and Ctrl+Shift+V in your defaults.json.</span></span><br><span class="line">        <span class="comment">// These two lines additionally bind them to Ctrl+C and Ctrl+V.</span></span><br><span class="line">        <span class="comment">// To learn more about selection, visit https://aka.ms/terminal-selection</span></span><br><span class="line">        &#123; <span class="attr">&quot;command&quot;</span>: &#123;<span class="attr">&quot;action&quot;</span>: <span class="string">&quot;copy&quot;</span>, <span class="attr">&quot;singleLine&quot;</span>: <span class="literal">false</span> &#125;, <span class="attr">&quot;keys&quot;</span>: <span class="string">&quot;ctrl+c&quot;</span> &#125;,</span><br><span class="line">        &#123; <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;paste&quot;</span>, <span class="attr">&quot;keys&quot;</span>: <span class="string">&quot;ctrl+v&quot;</span> &#125;,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Press Ctrl+Shift+F to open the search box</span></span><br><span class="line">        &#123; <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;find&quot;</span>, <span class="attr">&quot;keys&quot;</span>: <span class="string">&quot;ctrl+shift+f&quot;</span> &#125;,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Press Alt+Shift+D to open a new pane.</span></span><br><span class="line">        <span class="comment">// - &quot;split&quot;: &quot;auto&quot; makes this pane open in the direction that provides the most surface area.</span></span><br><span class="line">        <span class="comment">// - &quot;splitMode&quot;: &quot;duplicate&quot; makes the new pane use the focused pane&#x27;s profile.</span></span><br><span class="line">        <span class="comment">// To learn more about panes, visit https://aka.ms/terminal-panes</span></span><br><span class="line">        &#123; <span class="attr">&quot;command&quot;</span>: &#123; <span class="attr">&quot;action&quot;</span>: <span class="string">&quot;splitPane&quot;</span>, <span class="attr">&quot;split&quot;</span>: <span class="string">&quot;auto&quot;</span>, <span class="attr">&quot;splitMode&quot;</span>: <span class="string">&quot;duplicate&quot;</span> &#125;, <span class="attr">&quot;keys&quot;</span>: <span class="string">&quot;alt+shift+d&quot;</span> &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux换源"><a href="#Linux换源" class="headerlink" title="Linux换源"></a>Linux换源</h2><p><code>sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak</code> </p>
+<p><code>sudo rm /etc/apt/sources.list</code></p>
+<p><code>sudo nano /etc/apt/sources.list</code></p>
+<ul>
+<li>Debian10阿里源</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.aliyun.com/debian/ buster main non-free contrib</span><br><span class="line">deb-src http://mirrors.aliyun.com/debian/ buster main non-free contrib</span><br><span class="line"></span><br><span class="line">deb http://mirrors.aliyun.com/debian-security buster/updates main</span><br><span class="line">deb-src http://mirrors.aliyun.com/debian-security buster/updates main</span><br><span class="line"></span><br><span class="line">deb http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib</span><br><span class="line">deb-src http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib</span><br><span class="line"></span><br><span class="line">deb http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib</span><br><span class="line">deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib</span><br></pre></td></tr></table></figure>
+
+<p><code>sudo apt update &amp;&amp; sudo apt upgrade -y &amp;&amp; sudo apt autoremove -y</code></p>
+<h2 id="配置系统代理-clash"><a href="#配置系统代理-clash" class="headerlink" title="配置系统代理(clash)"></a>配置系统代理(clash)</h2><ul>
+<li>wsl1</li>
+</ul>
+<p>在<code>.bashrc</code>或者<code>.zshrc</code>中添加如下内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> https_proxy=<span class="string">&quot;http://127.0.0.1:7890&quot;</span>;</span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">&quot;http://127.0.0.1:7890&quot;</span>;</span><br><span class="line"><span class="built_in">export</span> all_proxy=<span class="string">&quot;socks5://127.0.0.1:7890&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>wsl2</li>
+</ul>
+<p>在<code>.bashrc</code>或者<code>.zshrc</code>中添加如下内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> hostip=$(cat /etc/resolv.conf |grep -oP <span class="string">&#x27;(?&lt;=nameserver\ ).*&#x27;</span>);</span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="string">&quot;http://<span class="variable">$&#123;hostip&#125;</span>:7890&quot;</span>;</span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">&quot;http://<span class="variable">$&#123;hostip&#125;</span>:7890&quot;</span>;</span><br><span class="line"><span class="built_in">export</span> all_proxy=<span class="string">&quot;socks5://<span class="variable">$&#123;hostip&#125;</span>:7890&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>完成后,输入<code>source .bashrc</code>或者<code>source .zshrc</code></p>
+<ul>
+<li>apt代理</li>
+</ul>
+<p><code>sudo apt -o Acquire::http::proxy=&quot;http://172.27.176.1(此处ip为wsl的ip):7890/&quot; install *********</code></p>
+<h2 id="ZSH-amp-开发环境"><a href="#ZSH-amp-开发环境" class="headerlink" title="ZSH&amp;开发环境"></a>ZSH&amp;开发环境</h2><ul>
+<li>安装zsh和基本开发软件</li>
+</ul>
+<p><code>sudo apt install zsh gcc g++ gdb python python3 python-pip python3-pip</code> </p>
+<p><code>sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;</code></p>
+<p>编辑<code>~/.zshrc</code><br>将<code>ZSH_THEME</code>的值改为<code>agnoster</code>或保持默认(个人喜好</p>
+<p>隐藏用户名<br><code>DEFAULT_USER=$USER</code></p>
+<p>安装 <code>syntax-highlighting</code> &amp; <code>zsh-autosuggestions</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-syntax-highlighting &amp;&amp; git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-autosuggestions &amp;&amp; chmod -R 555 ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting &amp;&amp; chmod -R 555 ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions</span><br></pre></td></tr></table></figure>
+
+<p>编辑<code>~/.zshrc</code></p>
+<p><code>plugins=(git z colored-man-pages zsh-autosuggestions zsh-syntax-highlighting)</code></p>
+<p><strong>在切换shell后,<code>.bashrc</code>中的代理设置要复制到<code>.zshrc</code>中</strong></p>
+<p>使zsh配置生效<br><code>source ~/.zshrc</code></p>
+<ul>
+<li>配置pip清华源</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U</span><br><span class="line">pip config <span class="built_in">set</span> global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+<p>或者在<code>~/.pip/pip.conf</code>中添加(建议使用这种方式)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">index-url = https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>clion&amp;vscode链接wsl</li>
+</ul>
+<p>在安装完clion和wsl2后以管理员身份运行powershell</p>
+<p><code>Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux</code></p>
+<p><a target="_blank" rel="noopener" href="https://www.jetbrains.com/help/clion/how-to-use-wsl-development-environment-in-clion.html">clion官方文档</a></p>
+<p><code>wget https://raw.githubusercontent.com/JetBrains/clion-wsl/master/ubuntu_setup_env.sh &amp;&amp; bash ubuntu_setup_env.sh</code></p>
+<p>P.S 如果使用的是zsh那么需要将bash中新增的关于自动链接到clion的配置复制到zsh中</p>
+<p>在clion中配置wsl的链接</p>
+<p><img src="https://img.misaka.gq/_posts/%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/clion_wsl.png"></p>
+<p><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/remote/wsl">Developing in the Windows Subsystem for Linux with Visual Studio Code</a></p>
+<p>在vscode中安装Remote-WSL插件</p>
+<p><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl">Remote - WSL - Visual Studio Marketplace</a></p>
+<p>安装后在你要进行开发的目录下,如<code>~/python_code</code>,输入<code>code .</code>即可进行开发</p>
+<h2 id="一些bug"><a href="#一些bug" class="headerlink" title="一些bug"></a>一些bug</h2><ol>
+<li><p>Windows要访问WSL2中的应用(如hexo生成的预览),有时不能直接通过localhost进行访问</p>
+</li>
+<li><p>有时候Windwos会因为网络原因无法链接到WSL2</p>
+</li>
+<li><p>WSL2的文件IO较慢</p>
+</li>
+</ol>
+<h1 id="HyperV使用记录"><a href="#HyperV使用记录" class="headerlink" title="HyperV使用记录"></a>HyperV使用记录</h1><h2 id="使用原因"><a href="#使用原因" class="headerlink" title="使用原因"></a>使用原因</h2><p>在开启WSL2后,<del>VMware的正式版不能正常使用,所以我一开始尝试了VMware的测试版</del>(现在的15.5版本已经可以支持了)</p>
+<p><a target="_blank" rel="noopener" href="https://blogs.vmware.com/workstation/2020/01/vmware-workstation-tech-preview-20h1.html">VMware的博客和对测试版的介绍</a></p>
+<p><a target="_blank" rel="noopener" href="https://blogs.vmware.com/workstation/2020/05/vmware-workstation-now-supports-hyper-v-mode.html">VMware的博客和对15.5版的介绍</a></p>
+<p>总的来说,在使用测试版时没有遇到特别大的问题,但是由于是虚拟机套娃,性能严重下降(没有使用过正式版,不清楚是否对其进行了优化),因此我把目光转向了Hyper-V</p>
+<h2 id="配置Hyper-V"><a href="#配置Hyper-V" class="headerlink" title="配置Hyper-V"></a>配置Hyper-V</h2><h3 id="Hyper-V使用感受"><a href="#Hyper-V使用感受" class="headerlink" title="Hyper-V使用感受"></a>Hyper-V使用感受</h3><p>Hyper-V给我的感受是比VMware流畅,且资源占用较低,因为Hyper-V虚拟Windows系统(或者是快速构建中列出的系统)可以使用动态内存分配</p>
+<p>而在使用增强模式后,除了拖动窗口有时存在掉帧现象,基本跟实体机没有太大的区别</p>
+<h3 id="启用Hyper-V"><a href="#启用Hyper-V" class="headerlink" title="启用Hyper-V"></a>启用Hyper-V</h3><p>在BIOS中启用虚拟化选项</p>
+<p>在控制面版中选择启用或关闭Windows功能,勾选Hyper-V,等待下载完成后,重启电脑</p>
+<p><img src="https://img.misaka.gq/_posts/%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/enable_hyperv.png"></p>
+<h3 id="Ubuntu虚拟机"><a href="#Ubuntu虚拟机" class="headerlink" title="Ubuntu虚拟机"></a>Ubuntu虚拟机</h3><p>在任务栏的搜索框中输入Hyper-V,点击Hyper-V管理器</p>
+<p><img src="https://img.misaka.gq/_posts/%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/hyperv.png"></p>
+<p>点击右边的快速构建,选择Ubuntu18.04.3LTS,等待下载完成即可(建议使用代理进行下载)(<strong>注意在设置用户名和密码时不要勾选自动登录</strong>)</p>
+<p>然后在弹出的窗口大小确认框中点击确定即可,然后输入用户名和密码,即可使用增强模式</p>
+<h3 id="Windows虚拟机"><a href="#Windows虚拟机" class="headerlink" title="Windows虚拟机"></a>Windows虚拟机</h3><p>快速构建中的Windows10开发环境使用的是企业评估版(emmmm….),PASS</p>
+<p>首先,用MediaCreationTool下载Windows10的ISO镜像文件</p>
+<p><a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/software-download/windows10">下载 Windows 10</a></p>
+<p>在Hyper-V管理器中点击右边的构建,选择虚拟机,代数选择第二代,网络选择Default Switch,安装选项选择使用iso文件</p>
+<p>点击新建的虚拟机,在右下角的设置中,先关闭安全启动,并将CPU的核数调整为你的CPU核数,点击链接然后启动即可</p>
+<p>安装并初始化完成后,关机,重新开启安全启动</p>
+<p>Windows默认使用增强模式,无需手动启用</p>
+<h3 id="Ubuntu配置"><a href="#Ubuntu配置" class="headerlink" title="Ubuntu配置"></a>Ubuntu配置</h3><ul>
+<li>换源</li>
+</ul>
+<p><code>sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak</code> </p>
+<p><code>sudo rm /etc/apt/sources.list</code></p>
+<p><code>sudo nano /etc/apt/sources.list</code></p>
+<p>Ubuntu18.04阿里源</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+
+<p><code>sudo apt update &amp;&amp; sudo apt upgrade -y &amp;&amp; sudo apt autoremove -y</code></p>
+<ul>
+<li>常用工具配置</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install vim gcc g++ gdb python python3 python-pip python3-pip git wget curl unzip binwalk file ruby-dev foremost aircrack-ng libgmp-dev libmpfr-dev libmpc-dev libssl-dev python-tk cmake python3-docopt python-docopt libgmp3-dev -y</span><br><span class="line">sudo gem install zsteg</span><br><span class="line"></span><br><span class="line">sudo apt install qemu</span><br><span class="line"></span><br><span class="line">sudo apt-get install gcc-multilib</span><br><span class="line"></span><br><span class="line">sudo apt-get install libc6-armhf-cross</span><br><span class="line"></span><br><span class="line">配置pip清华源</span><br><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U</span><br><span class="line">pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br><span class="line"></span><br><span class="line">或者在~/.pip/pip.conf中添加</span><br><span class="line"></span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.tuna.tsinghua.edu.cn/simple</span><br><span class="line"></span><br><span class="line">git代理</span><br><span class="line">git config --global http.proxy http://xxx.xxx.xxx.xxx:xxx</span><br><span class="line">git config --global https.proxy http://xxx.xxx.xxx.xxx:xxx</span><br><span class="line"></span><br><span class="line">pip install opencv-python==4.2.0.32 matplotlib Pillow gmpy2 z3-solver pyasn1</span><br><span class="line">pip3 install scikit-build</span><br><span class="line">pip3 install opencv-python gmpy2 z3-solver</span><br><span class="line"></span><br><span class="line">git clone https://github.com/chishaxie/BlindWaterMark.git &amp;&amp; git clone https://github.com/lijiejie/GitHack.git &amp;&amp; git clone https://github.com/nccgroup/featherduster.git &amp;&amp; git clone https://github.com/bwall/HashPump.git &amp;&amp; git clone https://github.com/pablocelayes/rsa-wiener-attack.git &amp;&amp; git clone https://github.com/RobinDavid/LSB-Steganography.git &amp;&amp; git clone https://github.com/livz/cloacked-pixel.git &amp;&amp; git clone https://github.com/rocky/python-uncompyle6.git &amp;&amp; git clone https://github.com/Ganapati/RsaCtfTool.git &amp;&amp; git clone https://github.com/matthewgao/F5-steganography.git &amp;&amp; git clone https://github.com/ius/rsatool.git &amp;&amp; git clone https://github.com/radareorg/radare2.git &amp;&amp; git clone https://github.com/nemanja-m/gaps.git</span><br><span class="line">部分仓库的安装 sudo python setup.py install</span><br><span class="line">radare2安装: sys/install.sh</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置32位环境</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg --add-architecture i386</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置Java环境</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Java SE Development Kit 8 Downloads</a></p>
+<p>在 <code>Java SE Development Kit 8u***</code>界面,选择 <code>jdk-8u***-linux-x64.tar.gz</code></p>
+<p>将下载得到的文件解压,并修改<code>.zshrc</code> 或者<code>.bashrc</code> ,在文件末尾添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=~/jdk1.8.0_***</span><br><span class="line">export JRE_HOME=~/jdk1.8.0_***/jre</span><br><span class="line">export CLASSPATH=$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH</span><br><span class="line">export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
+
+<p>修改完成后, <code>source .zshrc</code> 或者 <code>source .bashrc</code> 使配置生效</p>
+<h3 id="Windows配置"><a href="#Windows配置" class="headerlink" title="Windows配置"></a>Windows配置</h3><p><strong>可能存在病毒,请勿在实体机上使用</strong></p>
+<p><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1ncCT6nbtQ7_h7BpRd1VNxBev6CaHV-3c/view?usp=sharing">CTF_Tools.7z</a></p>
+<h1 id="Manjaro使用记录"><a href="#Manjaro使用记录" class="headerlink" title="Manjaro使用记录"></a>Manjaro使用记录</h1><p><img src="https://img.misaka.gq/_posts/%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/manjaro.png"></p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li><p>在安装时要找到Windows10的<code>efi</code>分区(100MB那个),选择保留,挂载点<code>/boot/efi</code>,标记勾选<code>boot</code></p>
+</li>
+<li><p>如果安装卡在了<code>93%</code>,可以直接断网,此时已经安装完成</p>
+</li>
+<li><p>双系统对时<code>sudo timedatectl set-local-rtc true</code></p>
+</li>
+<li><p>换源<code>sudo pacman-mirrors -c China -m rank</code></p>
+</li>
+<li><p>安装基础包<code>sudo pacman -S base-devel</code></p>
+</li>
+</ol>
+<h2 id="常用软件"><a href="#常用软件" class="headerlink" title="常用软件"></a>常用软件</h2><p>yay <code>sudo pacman -S yay</code></p>
+<hr>
+<p>输入法&amp;字体</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">wiki指北</a></p>
+<p><code>yay -S fcitx5-im</code></p>
+<p><code>nano ~/.pam_environment</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GTK_IM_MODULE DEFAULT=fcitx</span><br><span class="line">QT_IM_MODULE  DEFAULT=fcitx</span><br><span class="line">XMODIFIERS    DEFAULT=\@im=fcitx</span><br><span class="line">SDL_IM_MODULE DEFAULT=fcitx</span><br></pre></td></tr></table></figure>
+
+<p><code>yay -S fcitx5-qt</code></p>
+<p><code>yay -S fcitx5-gtk</code></p>
+<p><code>yay -S fcitx5-rime</code></p>
+<p>重启</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Rime_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">wiki指北</a></p>
+<p>在输入状态下点击F4更换为简体</p>
+<p>思源字体</p>
+<p><code>sudo pacman -S adobe-source-han-sans-cn-fonts</code></p>
+<hr>
+<p>google-chrome <code>yay -S google-chrome</code></p>
+<p>typora <code>yay -S typora</code></p>
+<p>vscode <code>yay -S visual-studio-code-bin</code></p>
+<p>wireshark <code>yay -S wireshark-qt</code></p>
+<p>burpsuite <code>yay -S burpsuite</code></p>
+<hr>
+<p>docker <code>yay -S docker</code></p>
+<p>启动docker <code>sudo systemctl start docker.service</code></p>
+<p>开机自启动 <code>sudo systemctl enable docker.service</code></p>
+<p>将用户添加到Docker组中 <code>sudo usermod -aG docker username</code></p>
+<p>打开或创建<code>/etc/docker/daemon.json</code>文件,将国内加速镜像填入到文件中</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;registry-mirrors&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;url&quot;</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完成后重启docker</p>
+<p><code>sudo systemctl daemon-reload</code></p>
+<p><code>sudo systemctl restart docker</code></p>
+<p>安装Docker Compose</p>
+<p><a target="_blank" rel="noopener" href="https://docs.docker.com/compose/install/">安装指北</a></p>
+<p><code>sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.28.0/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose</code></p>
+<p><code>sudo chmod +x /usr/local/bin/docker-compose</code></p>
+<p><code>docker-compose --version</code></p>
+<hr>
+<p>gcc <code>yay -S gcc</code></p>
+<p>gdb <code>yay -S gdb</code></p>
+<p>clion <code>yay -S clion</code></p>
+<p>pycharm <code>yay -S pycharm</code></p>
+<p>phpstorm <code>yay -S phpstorm</code></p>
+<p>binwalk <code>yay -S binwalk</code></p>
+<p>foremost <code>yay -S foremost</code></p>
+<p>zsteg <code>yay -S zsteg</code></p>
+<p>baidunetdisk <code>yay -S baidunetdisk</code></p>
+<p>upx <code>yay -S upx</code></p>
+<p>net-tools <code>yay -S net-tools</code></p>
+<p>010editor <code>yay -S 010editor</code></p>
+<p>notion <code>yay -S notion-app</code></p>
+<p>nodejs <code>yay -S nodejs-lts-fermium</code></p>
+<p>npm <code>yay -S npm</code></p>
+<p>motrix <code>yay -S motrix</code></p>
+<hr>
+<p>VMware</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/VMware_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">Arch-wiki指北</a></p>
+<p>下载链接<code>https://www.vmware.com/go/getworkstation-linux</code></p>
+<blockquote>
+<p>当安装程序询问<code>System service scripts directory</code>的设置时,输入<code>/etc/init.d</code>即可</p>
+</blockquote>
+<p>可能需要安装内核</p>
+<p>查看本机内核<code>uname -a</code></p>
+<p>查找内核<code>sudo pacman -Ss linux headers</code></p>
+<p>安装内核<code>sudo pacman -S linux***-headers</code></p>
+<p>VMware安装完成后,虚拟机无法启动,输入<code>sudo /etc/init.d/vmware start</code></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/11/11/2020%E6%96%B0%E7%94%9F%E8%B5%9B%E9%83%A8%E5%88%86WriteUp/" rel="prev" title="2020新生赛部分WriteUp">
+                  <i class="fa fa-chevron-left"></i> 2020新生赛部分WriteUp
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/01/22/%E6%97%A5%E5%B8%B8%E5%AD%A6%E4%B9%A0%E9%80%9F%E8%AE%B0%5B%E7%BD%AE%E9%A1%B6%5D/" rel="next" title="日常学习速记[置顶]">
+                  日常学习速记[置顶] <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Misaka</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
